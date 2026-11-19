@@ -1,0 +1,16 @@
+{
+  "arena": "0xDa07c014D3EbaE342E9B0bfD576deF6BACDd0853",
+  "chainId": 196,
+  "dryRun": true,
+  "feeBps": 250,
+  "feeRecipient": "0x362f5b4391AC51a56b13F9A63E98bB95731E86a3",
+  "firstChallengeId": 1,
+  "potBaseUnits": 1000000,
+  "prizeToken": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+  "processor": "0x9e2849c04A513FE64db07521cBE52d078d905c0E",
+  "solutionCircuitIds": [
+    8,
+    9,
+    10
+  ]
+}

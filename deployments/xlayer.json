@@ -1,0 +1,34 @@
+{
+  "status": "NOT_DEPLOYED",
+  "note": "Nothing has been sent to X Layer mainnet. After you run the scripts yourself with --broadcast, `bun scripts/xlayer-record.ts` replaces this file with the confirmed addresses, transaction hashes, receipts and verification commands. Dry-run output for the same flow is in deployments/xlayer.dryrun.json (simulated addresses).",
+  "network": "X Layer mainnet",
+  "chainId": 196,
+  "explorer": "https://www.oklink.com/xlayer",
+  "config": {
+    "factory": "0x1f09DAeFA827f02CBb40967cc91b259763760761",
+    "feeRecipient": "0x362f5b4391AC51a56b13F9A63E98bB95731E86a3",
+    "feeBps": 250,
+    "prizeToken": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+    "prizeTokenSymbol": "USDC",
+    "prizeTokenDecimals": 6,
+    "potPerChallengeBaseUnits": "1000000",
+    "suggestedProcessor": "0x9e2849c04A513FE64db07521cBE52d078d905c0E"
+  },
+  "arena": { "address": null, "deployTx": null, "deployBlock": null, "encodedConstructorArgs": "0x0000000000000000000000001f09daefa827f02cbb40967cc91b259763760761000000000000000000000000362f5b4391ac51a56b13f9a63e98bb95731e86a300000000000000000000000000000000000000000000000000000000000000fa" },
+  "challenges": [
+    { "name": "Full adder", "challengeId": null, "createTx": null },
+    { "name": "3-input majority", "challengeId": null, "createTx": null },
+    { "name": "4-bit parity", "challengeId": null, "createTx": null }
+  ],
+  "solutionCircuits": [
+    { "name": "Full adder", "gates": 9, "circuitId": null, "tapeoutTx": null },
+    { "name": "3-input majority", "gates": 6, "circuitId": null, "tapeoutTx": null },
+    { "name": "4-bit parity", "gates": 12, "circuitId": null, "tapeoutTx": null }
+  ],
+  "transactions": [],
+  "verify": {
+    "note": "Replace <ARENA> with the deployed address. Wait at least one minute after deployment. OKLink needs your OKLink API key in $OKLINK_API_KEY; Sourcify needs no key.",
+    "sourcify": "forge verify-contract <ARENA> contracts/Arena.sol:Arena --chain 196 --verifier sourcify --watch",
+    "oklink": "forge verify-contract <ARENA> contracts/Arena.sol:Arena --chain 196 --verifier oklink --verifier-url https://www.oklink.com/api/v5/explorer/contract/verify-source-code-plugin/XLAYER --etherscan-api-key $OKLINK_API_KEY --compiler-version v0.8.28+commit.7893614a --num-of-optimizations 200 --evm-version cancun --constructor-args 0x0000000000000000000000001f09daefa827f02cbb40967cc91b259763760761000000000000000000000000362f5b4391ac51a56b13f9a63e98bb95731e86a300000000000000000000000000000000000000000000000000000000000000fa --watch"
+  }
+}
