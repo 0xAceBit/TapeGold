@@ -1,16 +1,18 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { ChallengeDetail } from './components/ChallengeDetail';
 import { ChallengeList } from './components/ChallengeList';
+import { CreateChallenge } from './components/CreateChallenge';
 import { CommitFlow } from './components/CommitFlow';
 import { RevealFlow } from './components/RevealFlow';
 import { Shell } from './components/Shell';
 import { Unconfigured } from './components/Unconfigured';
 import type { ArenaConfig } from './config';
 
-type Route = { name: 'list' } | { name: 'detail'; id: number } | { name: 'commit'; id: number } | { name: 'reveal'; id: number };
+type Route = { name: 'list' } | { name: 'new' } | { name: 'detail'; id: number } | { name: 'commit'; id: number } | { name: 'reveal'; id: number };
 
 /** Hash routes, so the site works from any static host or gateway path with no server rewrites. */
 function parse(hash: string): Route {
+  if (hash === '#/new') return { name: 'new' };
   const m = /^#\/c\/(\d+)(?:\/(commit|reveal))?$/.exec(hash);
   if (!m) return { name: 'list' };
   const id = Number(m[1]);
@@ -36,6 +38,8 @@ export function LiveApp({ config, modeSwitch }: { config: ArenaConfig; modeSwitc
         <Unconfigured />
       ) : route.name === 'list' ? (
         <ChallengeList arena={arena} />
+      ) : route.name === 'new' ? (
+        <CreateChallenge arena={arena} />
       ) : route.name === 'detail' ? (
         <ChallengeDetail arena={arena} id={route.id} />
       ) : route.name === 'commit' ? (

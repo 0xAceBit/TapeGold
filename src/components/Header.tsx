@@ -1,12 +1,15 @@
 import type { ReactNode } from 'react';
-import { Clock, FlaskConical, RotateCcw } from 'lucide-react';
+import { Clock, FlaskConical, RotateCcw, Volume2, VolumeX } from 'lucide-react';
+import { play, setMuted, useMuted } from '@/lib/sound';
 import { advance } from '@/mock/engine';
 import { PERSONAS } from '@/mock/personas';
 import { resetDemo, run, setPersona } from '@/mock/store';
 import type { ChainState, Persona } from '@/mock/types';
 import { formatClock } from '@/lib/format';
+import { Brand } from './Brand';
+import { useScrolled } from './motion';
 
-export type View = 'list' | 'create' | 'wallet' | 'contest';
+export type View = 'practice' | 'list' | 'create' | 'wallet' | 'contest';
 
 interface Props {
   modeSwitch?: ReactNode;
@@ -17,6 +20,7 @@ interface Props {
 }
 
 const TABS: Array<{ id: Exclude<View, 'contest'>; label: string }> = [
+  { id: 'practice', label: 'Practice' },
   { id: 'list', label: 'Contests' },
   { id: 'create', label: 'New contest' },
   { id: 'wallet', label: 'Wallet' },
@@ -31,29 +35,24 @@ function nextDeadline(chain: ChainState): number | null {
 }
 
 export function Header({ modeSwitch, chain, persona, view, onView }: Props) {
+  const scrolled = useScrolled();
+  const muted = useMuted();
   const next = nextDeadline(chain);
   const skip = (seconds: number, label: string) => run(label, (s) => advance(s, seconds));
 
   return (
-    <header className="sticky top-0 z-20 border-b backdrop-blur-xl" style={{ borderColor: 'var(--border)', background: 'rgba(255,255,255,0.82)' }}>
+    <header
+      className="sticky top-0 z-20 border-b backdrop-blur-xl transition-shadow duration-300"
+      style={{ borderColor: 'var(--border)', background: 'rgba(255,255,255,0.92)', boxShadow: scrolled ? '0 8px 24px rgba(30,30,31,0.06)' : 'none' }}
+    >
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3">
-        <button type="button" className="display flex items-center gap-2 text-xl font-bold" onClick={() => onView('list')} aria-label="TapeGold home">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg text-sm" style={{ background: 'var(--accent)', color: '#fff' }}>
-            TG
-          </span>
-          TapeGold
+        <button type="button" onClick={() => onView('list')} aria-label="TapeGold home">
+          <Brand />
         </button>
 
-        <nav className="flex gap-1" aria-label="Main">
+        <nav className="flex flex-wrap gap-x-5 gap-y-1" aria-label="Main">
           {TABS.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              className="btn btn-sm"
-              aria-current={view === t.id ? 'page' : undefined}
-              style={view === t.id ? { background: 'var(--surface-muted)' } : { color: 'var(--muted)' }}
-              onClick={() => onView(t.id)}
-            >
+            <button key={t.id} type="button" className="navlink" aria-current={view === t.id ? 'page' : undefined} onClick={() => onView(t.id)}>
               {t.label}
             </button>
           ))}
@@ -61,7 +60,20 @@ export function Header({ modeSwitch, chain, persona, view, onView }: Props) {
 
         <div className="ml-auto flex flex-wrap items-center gap-2">
           {modeSwitch}
-          <div className="flex rounded-xl p-0.5" style={{ background: 'var(--surface-muted)' }} role="group" aria-label="Acting as">
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm"
+            aria-pressed={!muted}
+            aria-label={muted ? 'Turn sound on' : 'Turn sound off'}
+            title={muted ? 'Sound is off' : 'Sound is on'}
+            onClick={() => {
+              setMuted(!muted);
+              if (muted) play('tick');
+            }}
+          >
+            {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+          </button>
+          <div className="flex rounded-full p-0.5" style={{ background: 'var(--surface-muted)' }} role="group" aria-label="Acting as">
             {PERSONAS.map((p) => (
               <button
                 key={p.id}
@@ -69,7 +81,7 @@ export function Header({ modeSwitch, chain, persona, view, onView }: Props) {
                 className="btn btn-sm"
                 aria-pressed={p.id === persona.id}
                 title={`${p.name} (${p.role})`}
-                style={p.id === persona.id ? { background: 'var(--accent)', color: '#fff' } : { color: 'var(--ink-2)' }}
+                style={p.id === persona.id ? { background: 'var(--accent)', color: '#fff', borderColor: 'var(--accent)' } : { color: 'var(--ink-2)', background: 'transparent', borderColor: 'transparent' }}
                 onClick={() => setPersona(p.id)}
               >
                 {p.name}
@@ -79,7 +91,7 @@ export function Header({ modeSwitch, chain, persona, view, onView }: Props) {
         </div>
       </div>
 
-      <div style={{ background: 'rgba(18,45,69,0.04)' }}>
+      <div style={{ background: 'var(--surface-muted)' }}>
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-2 text-xs">
           <span className="chip" style={{ background: 'rgba(154,106,0,0.12)', color: 'var(--warn)' }}>
             <FlaskConical size={12} /> Demo data. No chain, no wallet.
@@ -101,6 +113,7 @@ export function Header({ modeSwitch, chain, persona, view, onView }: Props) {
               type="button"
               className="btn btn-ghost btn-sm"
               disabled={next === null}
+              title="Jumps the demo clock to the next deadline of any contest. To skip only one contest, use the buttons inside it."
               onClick={() => next !== null && skip(next - chain.now, 'Jumped to the next deadline')}
             >
               Next deadline

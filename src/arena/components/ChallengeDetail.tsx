@@ -9,6 +9,8 @@ import { useArenaTx } from '../tx';
 import { useWallet } from '../wallet';
 import { Leaderboard } from './Leaderboard';
 import { PhaseTag } from './ChallengeList';
+import { WinningCircuit } from './Showcase';
+import { TopUp } from './TopUp';
 import { TruthTable } from './TruthTable';
 import { AddrLink, KV, Note, Spinner, TxStatus } from './ui';
 
@@ -120,6 +122,8 @@ export function ChallengeDetail({ arena, id }: { arena: Address; id: number }) {
 
       <Deadlines ch={ch} now={now} />
       <Actions arena={arena} ch={ch} />
+      {ch.phase < 3 && <TopUp arena={arena} ch={ch} onDone={reload} />}
+      <WinningCircuit ch={ch} />
       <Leaderboard ch={ch} scan={scan} me={w.account} />
 
       <details className="sheet sheet-pad">

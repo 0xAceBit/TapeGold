@@ -42,3 +42,8 @@
 - [ ] Publish `dist/` after the Arena is deployed and `public/config.json` is filled in
 - [ ] Decide whether to add top-up and create-challenge screens
 - [ ] A faster leaderboard needs an indexer or an RPC that allows wider `eth_getLogs` ranges
+
+## Engagement
+- [ ] Try the practice, daily puzzle, share picture and sounds in a real browser (desktop and phone) and tune the pace of "Run all rows"
+- [ ] Decide on the netlist-bound commit contract before any large prize (see DECISIONS.md)
+- [ ] After the first real challenges finish, check the hall of fame and the winning-circuit picture on the live page

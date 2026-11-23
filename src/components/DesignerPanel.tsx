@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Check, Lock, Sparkles } from 'lucide-react';
-import { commitDesign, draftKey, phaseOf, reveal, tapeOut } from '@/mock/engine';
+import { Check, FastForward, Lock, RotateCcw, Sparkles } from 'lucide-react';
+import { advance, commitDesign, draftKey, phaseOf, reveal, tapeOut } from '@/mock/engine';
+import { PERSONAS } from '@/mock/personas';
 import { netlistHash, short, type Gate } from '@/mock/netlist';
 import { exampleFor } from '@/mock/seed';
-import { run } from '@/mock/store';
+import { resetDemo, run, setPersona } from '@/mock/store';
 import type { ChainState, Contest, Persona } from '@/mock/types';
 import { DesignLab, evaluate } from './DesignLab';
 
@@ -45,6 +46,9 @@ export function DesignerPanel({ chain, contest, persona }: Props) {
   const doCommit = () =>
     run('Committed. Your design is sealed.', (s) => commitDesign(s, persona.address, contest.id, work));
   const doTapeOut = () => run('Circuit taped out on the mock processor.', (s) => tapeOut(s, persona.address, contest.id));
+  // Per-contest clock jumps, so a visitor never overshoots a phase by using the header buttons.
+  const skipTo = (t: number, label: string) => run(label, (st) => advance(st, Math.max(0, t - st.now)));
+  const entrants = PERSONAS.filter((p) => !!contest.commits[p.address] && p.id !== persona.id);
   const doReveal = () => run('Revealed. The contract graded every row.', (s) => reveal(s, persona.address, contest.id));
 
   return (
@@ -82,9 +86,22 @@ export function DesignerPanel({ chain, contest, persona }: Props) {
       </ol>
 
       {stage === -1 && (
-        <p className="inset p-4 text-sm" style={{ color: 'var(--muted)' }}>
-          The commit phase ended before {persona.name} entered. Switch to another demo identity, or open a new contest.
-        </p>
+        <div className="inset space-y-3 p-4 text-sm">
+          <p style={{ color: 'var(--muted)' }}>
+            {phase === 'Commit' ? '' : `The commit phase has ended and ${persona.name} did not enter. In this demo the clock only moves forward, so this contest can no longer be entered as ${persona.name}.`}
+          </p>
+          <p style={{ color: 'var(--ink-2)' }}>To try the full flow, reset the demo (it restores every contest to its starting state), then enter XOR Golf before you skip any time.</p>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className="btn btn-primary btn-sm" onClick={resetDemo}>
+              <RotateCcw size={14} /> Reset the demo
+            </button>
+            {entrants.map((p) => (
+              <button key={p.id} type="button" className="btn btn-ghost btn-sm" onClick={() => setPersona(p.id)}>
+                View {p.name}&apos;s entry
+              </button>
+            ))}
+          </div>
+        </div>
       )}
 
       {stage === 0 && (
@@ -145,9 +162,12 @@ export function DesignerPanel({ chain, contest, persona }: Props) {
             </button>
           )}
           {stage === 2.5 && (
-            <p className="inset p-4 text-sm" style={{ color: 'var(--muted)' }}>
-              Taped out and sealed. Reveal opens when the commit phase ends. Use the clock in the header to skip ahead.
-            </p>
+            <div className="inset space-y-3 p-4 text-sm">
+              <p style={{ color: 'var(--muted)' }}>Taped out and sealed. Reveals open when the commit phase ends.</p>
+              <button type="button" className="btn btn-primary btn-sm" onClick={() => skipTo(contest.commitDeadline, 'Skipped to the reveal phase')}>
+                <FastForward size={14} /> Skip to the reveal phase
+              </button>
+            </div>
           )}
           {stage === 3 && (
             <button type="button" className="btn btn-primary w-full" onClick={doReveal}>
@@ -155,9 +175,17 @@ export function DesignerPanel({ chain, contest, persona }: Props) {
             </button>
           )}
           {stage === 4 && (
-            <p className="inset p-4 text-sm" style={{ color: 'var(--success)' }}>
-              Revealed and graded on every row. Your {draft.gates.length}-gate circuit is on the leaderboard.
-            </p>
+            <div className="inset space-y-3 p-4 text-sm">
+              <p style={{ color: 'var(--success)' }}>Revealed and graded on every row. Your {draft.gates.length}-gate circuit is on the leaderboard.</p>
+              {phase === 'Reveal' && (
+                <>
+                  <p style={{ color: 'var(--muted)' }}>Other players can still reveal. When you are ready, skip to the end of the reveal phase and settle.</p>
+                  <button type="button" className="btn btn-primary btn-sm" onClick={() => skipTo(contest.revealDeadline, 'Skipped to the end of the reveal phase')}>
+                    <FastForward size={14} /> Skip to the end of the reveal phase
+                  </button>
+                </>
+              )}
+            </div>
           )}
           {!commit.revealed && (phase === 'Ended' || phase === 'Settled') && (
             <p className="inset p-4 text-sm" style={{ color: 'var(--danger)' }}>

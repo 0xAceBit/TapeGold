@@ -1,9 +1,11 @@
-import { ChevronRight, Flag } from 'lucide-react';
+import { ChevronRight, Flag, Plus } from 'lucide-react';
 import type { Address } from 'viem';
 import type { Challenge } from '../arena';
 import { countdown, fmtToken, PHASES, shortAddr } from '../format';
 import { useChallenges, useNow } from '../hooks';
+import { NATIVE_USDC } from '../create';
 import { describeSpec } from '../specs';
+import { FeaturedChallenge, HallOfFame } from './Showcase';
 import { Spinner, Tag } from './ui';
 
 export function PhaseTag({ ch }: { ch: Challenge }) {
@@ -23,9 +25,12 @@ export function ChallengeList({ arena }: { arena: Address }) {
   const now = useNow();
   return (
     <section className="space-y-3">
-      <div className="flex items-end justify-between">
-        <h1 className="text-lg font-bold tracking-wide">SCORECARD</h1>
-        <span className="label">fewest gates wins</span>
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <h1 className="text-lg font-bold tracking-wide">SCORECARD</h1>
+          <span className="label">fewest gates wins</span>
+        </div>
+        <a className="btn btn-primary btn-sm no-underline" href="#/new"><Plus size={14} /> Create a challenge</a>
       </div>
       {loading && <Spinner label="Reading challenges from X Layer…" />}
       {error && (
@@ -34,7 +39,13 @@ export function ChallengeList({ arena }: { arena: Address }) {
           <button type="button" className="btn btn-sm" onClick={reload}>Retry</button>
         </div>
       )}
-      {data && data.length === 0 && <p className="text-[var(--muted)]">No challenges yet on this contract.</p>}
+      {data && data.length === 0 && (
+        <div className="sheet sheet-pad space-y-3">
+          <p className="text-[var(--muted)]">No challenges yet on this contract. Anyone can post the first one.</p>
+          <a className="btn btn-primary no-underline" href="#/new"><Plus size={14} /> Create the first challenge</a>
+        </div>
+      )}
+      {data && data.length > 0 && <FeaturedChallenge list={data} now={now} />}
       {data && data.length > 0 && (
         <div className="sheet">
           {data.map((ch, i) => {
@@ -50,7 +61,10 @@ export function ChallengeList({ arena }: { arena: Address }) {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
                       <span className="truncate font-bold">{info.name}</span>
-                      <PhaseTag ch={ch} />
+                      <span className="flex shrink-0 items-center gap-1.5">
+                        {ch.token.toLowerCase() !== NATIVE_USDC.toLowerCase() && <Tag tone="warn">custom token</Tag>}
+                        <PhaseTag ch={ch} />
+                      </span>
                     </div>
                     <div className="num mt-1 flex flex-wrap gap-x-4 text-[12px] text-[var(--muted)]">
                       <span>{ch.nIn} in / {ch.nOut} out</span>
@@ -67,6 +81,7 @@ export function ChallengeList({ arena }: { arena: Address }) {
           })}
         </div>
       )}
+      {data && data.length > 0 && <HallOfFame list={data} />}
     </section>
   );
 }

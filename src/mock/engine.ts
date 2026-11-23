@@ -15,7 +15,12 @@ import {
  * one, or throws a ContractError named after the Solidity custom error it stands for.
  */
 
-const clone = <T,>(v: T): T => structuredClone(v);
+// A plain JSON round trip (bigint-aware) instead of structuredClone: the state only holds JSON-safe data and bigints, and this behaves
+// identically in every runtime, including the one the checks run in.
+const toJson = (_k: string, v: unknown) => (typeof v === 'bigint' ? { __bigint: v.toString() } : v);
+const fromJson = (_k: string, v: unknown) =>
+  v && typeof v === 'object' && '__bigint' in v ? BigInt((v as { __bigint: string }).__bigint) : v;
+const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v, toJson), fromJson) as T;
 
 export const draftKey = (who: Address, contestId: number) => `${who}:${contestId}`;
 

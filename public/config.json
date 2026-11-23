@@ -1,1 +1,5 @@
-{ "arena": null, "deployBlock": null, "chainId": 196 }
+{
+  "arena": "0xf10a842037c61c894Febc5cE8FC97ffAd4531A68",
+  "deployBlock": 76327695,
+  "chainId": 196
+}

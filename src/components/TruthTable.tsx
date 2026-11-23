@@ -8,9 +8,11 @@ interface Props {
   /** Outputs produced by the design under test, same length as expected. Omit to show the spec only. */
   got?: number[];
   compact?: boolean;
+  /** The row being shown by "Run all rows". */
+  activeRow?: number | null;
 }
 
-export function TruthTable({ nIn, nOut, expected, got, compact }: Props) {
+export function TruthTable({ nIn, nOut, expected, got, compact, activeRow }: Props) {
   const inLabels = Array.from({ length: nIn }, (_, i) => `in${i}`);
   const outLabels = Array.from({ length: nOut }, (_, i) => `out${i}`);
   return (
@@ -36,7 +38,12 @@ export function TruthTable({ nIn, nOut, expected, got, compact }: Props) {
           {expected.map((want, v) => {
             const ok = got ? got[v] === want : null;
             return (
-              <tr key={v} className={compact ? '' : 'border-t'} style={{ borderColor: 'var(--border)' }}>
+              <tr
+                key={v}
+                className={`${compact ? '' : 'border-t'} transition-colors duration-200`}
+                style={{ borderColor: 'var(--border)', background: activeRow === v ? (ok === false ? 'rgba(186,43,76,0.14)' : 'rgba(26,127,69,0.14)') : undefined }}
+                aria-current={activeRow === v ? 'true' : undefined}
+              >
                 {inLabels.map((l, i) => (
                   <td key={l} className="mono px-2 py-1.5">
                     {(v >> i) & 1}

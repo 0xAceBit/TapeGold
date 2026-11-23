@@ -4,6 +4,7 @@ import { EXPLORER, XLAYER_ID, addressUrl } from '../chain';
 import type { ArenaConfig } from '../config';
 import { shortAddr } from '../format';
 import { connect, disconnect, ensureXLayer, findProvider, friendlyError, restore, useWallet } from '../wallet';
+import { Brand } from '../../components/Brand';
 import { CopyButton } from './ui';
 
 function WalletButton() {
@@ -86,13 +87,10 @@ function ContractBar({ config }: { config: ArenaConfig }) {
 export function Shell({ config, modeSwitch, children }: { config: ArenaConfig; modeSwitch?: ReactNode; children: ReactNode }) {
   return (
     <div className="min-h-dvh pb-28">
-      <header className="sticky top-0 z-10 border-b backdrop-blur-xl" style={{ borderColor: 'var(--border)', background: 'rgba(255,255,255,0.82)' }}>
+      <header className="sticky top-0 z-10 border-b backdrop-blur-xl" style={{ borderColor: 'var(--border)', background: 'rgba(255,255,255,0.92)' }}>
         <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-3">
-          <a href="#/" className="display flex items-center gap-2 text-xl font-bold no-underline" style={{ color: 'var(--ink)' }} aria-label="TapeGold home">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg text-sm" style={{ background: 'var(--accent)', color: '#fff' }}>
-              TG
-            </span>
-            TapeGold
+          <a href="#/" className="no-underline" style={{ color: 'var(--ink)' }} aria-label="TapeGold home">
+            <Brand />
           </a>
           <div className="flex flex-wrap items-center gap-2">
             {modeSwitch}

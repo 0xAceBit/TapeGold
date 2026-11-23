@@ -50,8 +50,8 @@ export function netlistHash(gates: Gate[]): Hex {
   return keccak256(encodeNetlist(gates));
 }
 
-/** Same bit packing as eval: input i is bit i of the vector, output j is bit j of the result. */
-export function evalDesign(d: Design, vector: number): number {
+/** Every wire value for one input vector: index 0 and 1 are the constants, inputs start at 2, then one entry per gate. */
+export function evalSignals(d: Design, vector: number): number[] {
   const total = 2 + d.nIn + d.gates.length;
   const sig = new Array<number>(total).fill(0);
   sig[1] = 1;
@@ -59,8 +59,14 @@ export function evalDesign(d: Design, vector: number): number {
   d.gates.forEach((g, k) => {
     sig[2 + d.nIn + k] = sig[g.a] & sig[g.b] ? 0 : 1;
   });
+  return sig;
+}
+
+/** Same bit packing as eval: input i is bit i of the vector, output j is bit j of the result. */
+export function evalDesign(d: Design, vector: number): number {
+  const sig = evalSignals(d, vector);
   let out = 0;
-  const first = total - d.nOut;
+  const first = sig.length - d.nOut;
   for (let j = 0; j < d.nOut; j++) out |= sig[first + j] << j;
   return out;
 }

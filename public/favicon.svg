@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="100 96 200 200"><clipPath id="c"><circle cx="200" cy="196" r="100"/></clipPath><g clip-path="url(#c)">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f1ea"/><stop offset="1" stop-color="#e3dfd6"/></linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.42" r="0.5"><stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="skin" x1="0.2" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#fbe6d6"/><stop offset="1" stop-color="#f1c9b0"/></linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5a3c2e"/><stop offset="1" stop-color="#2c1d18"/></linearGradient>
+    <linearGradient id="lens" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3a40"/><stop offset="1" stop-color="#0d0d0f"/></linearGradient>
+    <linearGradient id="blazer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2a2c"/><stop offset="1" stop-color="#151516"/></linearGradient>
+    <clipPath id="face"><path id="facepath" d="M200 108 C140 108 126 172 132 214 C138 262 166 306 200 310 C234 306 262 262 268 214 C274 172 260 108 200 108 Z"/></clipPath>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg)"/>
+  <circle cx="200" cy="215" r="190" fill="url(#halo)"/>
+  <circle cx="318" cy="96" r="22" fill="#d9b46a" opacity="0.9"/>
+  <circle cx="86" cy="150" r="9" fill="#1e1e1f" opacity="0.8"/>
+  <!-- hair behind -->
+  <path d="M104 236 C92 150 128 76 200 76 C272 76 308 150 296 236 C292 296 304 350 286 400 L114 400 C96 350 108 296 104 236 Z" fill="url(#hair)"/>
+  <!-- body -->
+  <path d="M30 500 C34 408 108 360 200 356 C292 360 366 408 370 500 Z" fill="url(#blazer)"/>
+  <!-- neck -->
+  <path d="M168 290 C168 336 164 358 148 372 L200 436 L252 372 C236 358 232 336 232 290 Z" fill="url(#skin)"/>
+  <ellipse cx="200" cy="318" rx="34" ry="13" fill="#c98f74" opacity="0.20"/>
+  <!-- white top -->
+  <path d="M148 372 L200 436 L252 372 L270 500 L130 500 Z" fill="#fafafa"/>
+  <path d="M148 372 L200 436 L252 372" fill="none" stroke="#e8e8e8" stroke-width="2"/>
+  <!-- lapels -->
+  <path d="M148 372 L112 384 L84 500 L134 500 L172 420 Z" fill="#1b1b1c"/>
+  <path d="M252 372 L288 384 L316 500 L266 500 L228 420 Z" fill="#1b1b1c"/>
+  <!-- necklace -->
+  <path d="M170 384 Q200 408 230 384" fill="none" stroke="#d9b46a" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="200" cy="404" r="3.4" fill="#d9b46a"/>
+  <!-- ears + earrings -->
+  <ellipse cx="130" cy="228" rx="9" ry="16" fill="#f1c9b0"/><ellipse cx="270" cy="228" rx="9" ry="16" fill="#f1c9b0"/>
+  <circle cx="129" cy="250" r="5.5" fill="#d9b46a"/><circle cx="271" cy="250" r="5.5" fill="#d9b46a"/>
+  <!-- face -->
+  <path d="M200 108 C140 108 126 172 132 214 C138 262 166 306 200 310 C234 306 262 262 268 214 C274 172 260 108 200 108 Z" fill="url(#skin)"/>
+  <g clip-path="url(#face)">
+    <ellipse cx="256" cy="250" rx="46" ry="90" fill="#d9a285" opacity="0.18"/>
+    <circle cx="156" cy="252" r="20" fill="#f19a96" opacity="0.28"/><circle cx="244" cy="252" r="20" fill="#f19a96" opacity="0.28"/>
+  </g>
+  <!-- nose -->
+  <path d="M200 206 C198 228 191 242 195 249 C199 254 207 253 209 248" fill="none" stroke="#dcae95" stroke-width="2.2" stroke-linecap="round"/>
+  <ellipse cx="200" cy="251" rx="13" ry="3.2" fill="#e9bba3" opacity="0.5"/>
+  <!-- lips -->
+  <path d="M177 274 C188 266 197 270 200 272 C203 270 212 266 223 274 C215 290 185 290 177 274 Z" fill="#d6606b"/>
+  <path d="M177 274 Q200 279 223 274" fill="none" stroke="#a8404c" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M186 281 Q200 287 214 281" fill="none" stroke="#f08a93" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+  <!-- hair front -->
+  <path d="M132 190 C130 118 168 90 206 92 C252 94 274 128 268 190 C256 148 222 122 182 130 C152 136 138 156 132 190 Z" fill="url(#hair)"/>
+  <path d="M148 140 C170 112 214 104 246 122" fill="none" stroke="#8a6350" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+  <path d="M136 170 C140 152 150 140 164 132" fill="none" stroke="#8a6350" stroke-width="2.4" stroke-linecap="round" opacity="0.45"/>
+  <!-- sunglasses -->
+  <path d="M136 190 C136 177 150 172 168 172 L188 174 C197 176 198 187 195 198 C191 216 176 224 160 221 C145 218 136 206 136 190 Z" fill="url(#lens)" stroke="#0b0b0c" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M264 190 C264 177 250 172 232 172 L212 174 C203 176 202 187 205 198 C209 216 224 224 240 221 C255 218 264 206 264 190 Z" fill="url(#lens)" stroke="#0b0b0c" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M195 184 Q200 179 205 184" fill="none" stroke="#0b0b0c" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M137 188 L127 184 M263 188 L273 184" stroke="#0b0b0c" stroke-width="4" stroke-linecap="round"/>
+  <path d="M147 184 L168 180 L158 198 Z" fill="#ffffff" opacity="0.13"/>
+  <path d="M253 184 L232 180 L242 198 Z" fill="#ffffff" opacity="0.13"/>
+  <path d="M150 208 Q166 218 182 210" fill="none" stroke="#ffffff" stroke-width="1.6" opacity="0.18" stroke-linecap="round"/>
+</g></svg>

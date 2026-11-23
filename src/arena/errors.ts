@@ -21,6 +21,19 @@ const TEXT: Record<string, (a: readonly unknown[]) => string> = {
   NothingToRefund: () => 'Nothing to refund.',
   RefundNotAvailable: () => 'No refund is available for this challenge.',
   ChallengeNotFound: () => 'That challenge does not exist.',
+  ZeroAmount: () => 'The prize must be more than zero.',
+  TokenHasNoCode: () => 'That address is not a token contract.',
+  InvalidInputs: () => 'A challenge needs between 1 and 8 switches.',
+  InvalidOutputs: () => 'A challenge needs between 1 and 8 lamps.',
+  UnregisteredProcessor: () => 'That processor is not registered with TapeOut, so circuits made there are not accepted.',
+  InvalidDeadlines: () => 'The entry window and reveal window must both be in the future, in that order.',
+  DeadlineTooFar: () => 'The entry window and the reveal window can each be at most 90 days.',
+  InvalidTableLength: () => 'The answer sheet has the wrong size.',
+  InvalidTablePadding: () => 'The answer sheet has stray bits.',
+  IncorrectAmountReceived: () => 'The token took a fee on transfer, so the prize arrived short. This token is not supported.',
+  ERC20InsufficientAllowance: () => 'Allow the contract to use your USDC first.',
+  ERC20InsufficientBalance: () => 'Your wallet does not hold enough of that token.',
+  SafeERC20FailedOperation: () => 'The token transfer failed. Check your balance and allowance.',
 };
 
 /** Turns a viem / wallet error into one plain sentence. */

@@ -1,35 +1,41 @@
-@import '@fontsource-variable/dm-sans';
-@import '@fontsource-variable/space-grotesk';
-@import '@fontsource-variable/jetbrains-mono';
+@import '@fontsource-variable/geist/wght.css';
+@import '@fontsource/instrument-serif/latin-400.css';
+@import '@fontsource/instrument-serif/latin-400-italic.css';
+@import '@fontsource/pt-mono/latin-400.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* TapeGold: Arc Light. Fonts are bundled with the site (no third-party requests), so it can be published anywhere. */
+/*
+ * TapeGold look: quiet, monochrome, editorial. Inspired by the Basalt Framer template (basalt.framer.website):
+ * white canvas, near-black ink, hairline borders, fully rounded buttons, tight tracking on large Geist headlines,
+ * Instrument Serif italics for emphasis and PT Mono for small labels. Only the visual system is borrowed, no template assets.
+ * Fonts are bundled with the site (no third-party requests), so it can be published anywhere.
+ */
 :root {
   --bg: #ffffff;
-  --bg-gradient: linear-gradient(180deg, #f9f9fc 0%, #fffcf7 52%, #fbf7f2 100%);
-  --surface: rgba(255, 255, 255, 0.72);
-  --surface-strong: rgba(255, 255, 255, 0.9);
-  --surface-muted: #f5f5f8;
-  --ink: #122d45;
-  --ink-2: #334155;
-  --muted: #6b6580;
-  --subtle: #8a849c;
-  --border: rgba(18, 45, 69, 0.12);
-  --border-strong: rgba(25, 53, 77, 0.5);
-  --accent: #122d45;
-  --accent-hover: #1061a6;
-  --focus: #85b1ed;
-  --success: #1a8047;
-  --danger: #ba2b4c;
-  --warn: #9a6a00;
+  --surface: #ffffff;
+  --surface-strong: #ffffff;
+  --surface-muted: #f3f3f2;
+  --ink: #1e1e1f;
+  --ink-2: #3b3b3d;
+  --muted: #6b6b6e;
+  --subtle: #767676;
+  --border: #e4e4e4;
+  --border-strong: #bfbfbf;
+  --accent: #1e1e1f;
+  --accent-hover: #000000;
+  --focus: #1e1e1f;
+  /* semantic colours stay semantic */
+  --success: #1a7f45;
+  --danger: #b3261e;
+  --warn: #8a5a00;
 
   /* names used by the live-mode screens, mapped onto the same palette */
-  --panel: var(--surface-strong);
+  --panel: var(--surface);
   --panel-2: var(--surface-muted);
   --line: var(--border);
-  --line-strong: rgba(18, 45, 69, 0.22);
+  --line-strong: var(--border-strong);
   --dim: var(--subtle);
   --accent-ink: #ffffff;
   color-scheme: light;
@@ -41,35 +47,60 @@
 html {
   -webkit-text-size-adjust: 100%;
 }
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
 body {
   margin: 0;
   min-height: 100dvh;
-  background: var(--bg-gradient) fixed, var(--bg);
+  background: var(--bg);
   color: var(--ink);
-  font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+  font-family: 'Geist Variable', 'Geist', sans-serif;
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
 }
 ::selection {
-  background: var(--focus);
+  background: var(--border);
   color: var(--ink);
 }
 
+/* Headlines: Geist, medium weight, tight tracking. */
 .display {
-  font-family: 'Space Grotesk Variable', 'Space Grotesk', sans-serif;
-  letter-spacing: -0.03em;
+  font-family: 'Geist Variable', 'Geist', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+.hero-title {
+  font-family: 'Geist Variable', 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: clamp(2.75rem, 9vw, 6rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+/* Serif italic for one emphasised word inside a headline. */
+.serif {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
 }
 .mono {
-  font-family: 'JetBrains Mono Variable', 'JetBrains Mono', Menlo, monospace;
+  font-family: 'PT Mono', ui-monospace, Menlo, monospace;
 }
 .num {
   font-variant-numeric: tabular-nums;
 }
 .eyebrow,
 .label {
+  font-family: 'PT Mono', ui-monospace, Menlo, monospace;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-weight: 400;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--subtle);
 }
@@ -82,12 +113,19 @@ body {
   .sheet {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    backdrop-filter: blur(14px);
-    box-shadow: 0 1px 2px rgba(18, 45, 69, 0.04), 0 10px 28px rgba(18, 45, 69, 0.05);
+    border-radius: 14px;
   }
   .sheet-pad {
     padding: 18px;
+  }
+  /* a quiet grey block, like a product photo area */
+  .tile {
+    background: var(--surface-muted);
+    border-radius: 12px;
+  }
+  .inset {
+    background: var(--surface-muted);
+    border-radius: 12px;
   }
   .rule {
     border-top: 1px solid var(--border);
@@ -110,7 +148,7 @@ body {
     background: var(--surface-muted);
     color: var(--ink-2);
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .btn {
@@ -119,24 +157,26 @@ body {
     justify-content: center;
     gap: 8px;
     min-height: 44px;
-    padding: 0 18px;
+    padding: 0 22px;
     border: 1px solid var(--border);
-    border-radius: 14px;
-    background: var(--surface-strong);
+    border-radius: 999px;
+    background: var(--surface);
     color: var(--ink);
     font: inherit;
-    font-weight: 600;
+    font-weight: 500;
+    letter-spacing: -0.01em;
     cursor: pointer;
-    transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.12s;
+    transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.12s;
   }
   .btn:hover:not(:disabled) {
     background: var(--surface-muted);
+    border-color: var(--border-strong);
   }
   .btn:active:not(:disabled) {
     transform: translateY(1px);
   }
   .btn:disabled {
-    opacity: 0.45;
+    opacity: 0.4;
     cursor: not-allowed;
   }
   .btn-primary {
@@ -145,16 +185,15 @@ body {
     color: #fff;
   }
   .btn-primary:hover:not(:disabled) {
-    background: var(--accent-hover);
-    border-color: var(--accent-hover);
+    background: #3a3a3c;
+    border-color: #3a3a3c;
   }
   .btn-ghost {
     background: transparent;
   }
   .btn-sm {
     min-height: 36px;
-    padding: 0 12px;
-    border-radius: 12px;
+    padding: 0 14px;
     font-size: 13px;
   }
   .btn:focus-visible,
@@ -170,9 +209,9 @@ body {
   .field-sm {
     width: 100%;
     padding: 0 14px;
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 12px;
     color: var(--ink);
     font: inherit;
   }
@@ -184,6 +223,10 @@ body {
     padding: 0 10px;
     font-size: 13px;
     border-radius: 10px;
+  }
+  .field:hover,
+  .field-sm:hover {
+    border-color: var(--border-strong);
   }
   .field::placeholder,
   .field-sm::placeholder {
@@ -200,8 +243,45 @@ body {
     color: var(--warn);
   }
   a.link {
-    color: var(--accent-hover);
+    color: var(--ink);
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+  /* plain text navigation, like the template's top bar */
+  .navlink {
+    padding: 6px 2px;
+    color: var(--muted);
+    font-weight: 500;
+    border-bottom: 1.5px solid transparent;
+    background: none;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .navlink:hover {
+    color: var(--ink);
+  }
+  .navlink[aria-current='page'] {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+}
+
+/* Slow ticker. Pauses on hover; off for people who asked for less motion. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
   }
 }

@@ -1,6 +1,6 @@
 {
-  "status": "NOT_DEPLOYED",
-  "note": "Nothing has been sent to X Layer mainnet. After you run the scripts yourself with --broadcast, `bun scripts/xlayer-record.ts` replaces this file with the confirmed addresses, transaction hashes, receipts and verification commands. Dry-run output for the same flow is in deployments/xlayer.dryrun.json (simulated addresses).",
+  "status": "ARENA_DEPLOYED",
+  "note": "Arena is deployed on X Layer mainnet (confirmed by the owner's run). Challenges and circuits are not created yet. Re-run `bun scripts/xlayer-record.ts` on the machine that ran the scripts to fill the rest.",
   "network": "X Layer mainnet",
   "chainId": 196,
   "explorer": "https://www.oklink.com/xlayer",
@@ -14,16 +14,50 @@
     "potPerChallengeBaseUnits": "1000000",
     "suggestedProcessor": "0x9e2849c04A513FE64db07521cBE52d078d905c0E"
   },
-  "arena": { "address": null, "deployTx": null, "deployBlock": null, "encodedConstructorArgs": "0x0000000000000000000000001f09daefa827f02cbb40967cc91b259763760761000000000000000000000000362f5b4391ac51a56b13f9a63e98bb95731e86a300000000000000000000000000000000000000000000000000000000000000fa" },
+  "arena": {
+    "address": "0xf10a842037c61c894Febc5cE8FC97ffAd4531A68",
+    "deployTx": "0xbb28f127c6da0672141e8ca651088b9405748f0931ef17a835f10d6ac8dc94ee",
+    "deployBlock": 76327695,
+    "encodedConstructorArgs": "0x0000000000000000000000001f09daefa827f02cbb40967cc91b259763760761000000000000000000000000362f5b4391ac51a56b13f9a63e98bb95731e86a300000000000000000000000000000000000000000000000000000000000000fa",
+    "deployer": "0x02abaB11438067Ee6BfB0FB72E24fD0A2935c9E8",
+    "sourcify": "exact_match"
+  },
   "challenges": [
-    { "name": "Full adder", "challengeId": null, "createTx": null },
-    { "name": "3-input majority", "challengeId": null, "createTx": null },
-    { "name": "4-bit parity", "challengeId": null, "createTx": null }
+    {
+      "name": "Full adder",
+      "challengeId": null,
+      "createTx": null
+    },
+    {
+      "name": "3-input majority",
+      "challengeId": null,
+      "createTx": null
+    },
+    {
+      "name": "4-bit parity",
+      "challengeId": null,
+      "createTx": null
+    }
   ],
   "solutionCircuits": [
-    { "name": "Full adder", "gates": 9, "circuitId": null, "tapeoutTx": null },
-    { "name": "3-input majority", "gates": 6, "circuitId": null, "tapeoutTx": null },
-    { "name": "4-bit parity", "gates": 12, "circuitId": null, "tapeoutTx": null }
+    {
+      "name": "Full adder",
+      "gates": 9,
+      "circuitId": null,
+      "tapeoutTx": null
+    },
+    {
+      "name": "3-input majority",
+      "gates": 6,
+      "circuitId": null,
+      "tapeoutTx": null
+    },
+    {
+      "name": "4-bit parity",
+      "gates": 12,
+      "circuitId": null,
+      "tapeoutTx": null
+    }
   ],
   "transactions": [],
   "verify": {
