@@ -1,3 +1,4 @@
+import { LegalFooter } from '@/components/Legal';
 import { useEffect, type ReactNode } from 'react';
 import { ExternalLink, Wallet } from 'lucide-react';
 import { EXPLORER, XLAYER_ID, addressUrl } from '../chain';
@@ -101,6 +102,7 @@ export function Shell({ config, modeSwitch, children }: { config: ArenaConfig; m
       <main className="mx-auto max-w-3xl space-y-4 px-4 py-5">
         <WalletNotices />
         {children}
+        <LegalFooter />
       </main>
       <ContractBar config={config} />
     </div>

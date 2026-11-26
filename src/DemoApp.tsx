@@ -1,3 +1,4 @@
+import { LegalFooter } from './components/Legal';
 import { todayKey } from '@/daily';
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { useChain, usePersona } from '@/mock/store';
@@ -64,6 +65,7 @@ export default function DemoApp({ modeSwitch, onGoLive }: { modeSwitch?: ReactNo
         )}
         {route.view === 'wallet' && <WalletPanel chain={chain} persona={persona} />}
         {route.view === 'practice' && <Practice onOpenLive={onGoLive} />}
+        <LegalFooter />
       </main>
     </div>
   );

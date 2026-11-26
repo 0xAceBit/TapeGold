@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import DemoApp from './DemoApp';
+import { LegalPage, useLegalKind } from './components/Legal';
 import { ModeSwitch } from './components/ModeSwitch';
 import { LiveApp } from './arena/LiveApp';
 import { loadConfig, type ArenaConfig } from './arena/config';
@@ -15,12 +16,15 @@ export default function App() {
   useEffect(() => {
     void loadConfig().then(setConfig);
   }, []);
+  const legal = useLegalKind();
   const liveReady = !!config?.arena;
   const practice = usePractice();
   // Live opens by default only for people who have finished (or skipped) the practice puzzles.
   const [chosen, setMode] = useMode(liveReady && practice.done);
   const mode = chosen === 'live' && !practice.done ? 'demo' : chosen;
 
+  // Terms and Privacy open from any screen, in demo or live mode, at #/terms and #/privacy.
+  if (legal) return <LegalPage kind={legal} />;
   if (!config) return <div className="min-h-dvh" aria-busy="true" />;
   const goPractice = () => {
     setMode('demo');
